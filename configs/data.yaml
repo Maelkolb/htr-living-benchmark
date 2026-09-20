@@ -1,0 +1,13 @@
+# The data release that `htrbench data fetch` downloads, checks and unpacks into data/ (docs/DATASETS.md).
+#
+# The folder holds unpublished archival images and is shared on request, not openly: a fetch without access
+# fails with a message that says so. Ask for access through the repository's issue tracker, download the zip by
+# hand and run `htrbench data fetch --from <zip>` instead; the checksum below is checked either way.
+release: "1.0"
+archive: htr-living-benchmark-data-1.0.zip
+sha256: 63fc31dbd80f88fc895db1b9f6d23a8f22caff1240e5ae584c53ced72351e0cb
+size_mb: 96
+drive_file_id: 1P22uEfVMC_YZywhHH97RZBBN2fdprWCs
+drive_folder: https://drive.google.com/drive/folders/1CaQCXiV00ZTkqyMLfpn_7HRBtGX4uyHj
+repository: https://github.com/Maelkolb/htr-living-benchmark   # requests for access go to its issue tracker
+contents: 86 pages with references and Kraken layout, 20 archived runs, 633 judged lines in two passes

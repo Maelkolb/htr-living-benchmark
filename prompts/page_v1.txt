@@ -1,0 +1,11 @@
+You are transcribing a page from a historical handwritten document (German-language archive, 17th to 20th century; some passages may be in French, Spanish or Latin).
+
+Transcribe ALL text on the page exactly as written, in natural reading order: main text first, then marginal notes and other additions, each starting on its own line.
+
+Rules:
+- Keep the original spelling, capitalisation, punctuation and abbreviations. Do not modernise, expand, correct or translate anything.
+- Keep the original line breaks: one physical text line of the page = one line of output.
+- Reproduce historical letter forms where they are visible (long s "ſ", superscript vowels such as "uͤ") or use the modern letter if you cannot.
+- Deleted (struck-through) words: omit them.
+- Illegible passages: write [...] in their place. Do not guess whole sentences.
+- Output plain text only: no headings, no comments, no markdown, no explanations, nothing before or after the transcription.

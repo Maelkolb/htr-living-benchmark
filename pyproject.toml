@@ -1,0 +1,62 @@
+[project]
+name = "htrbench"
+version = "1.0.0"
+description = "Towards a living benchmark for historical HTR: five dimensions, 86 pages, 20 systems"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = { text = "MIT" }
+authors = [{ name = "Tobias Perschl" }, { name = "Malte Rehbein" }]
+dependencies = [
+  "pydantic>=2.7",
+  "typer>=0.12",
+  "pyyaml>=6",
+  "python-dotenv>=1",
+  "numpy>=1.26",
+  "scipy>=1.12",
+  "pandas>=2.2",
+  "pyarrow>=15",
+  "rapidfuzz>=3.9",
+  "wordfreq>=3.1",
+  "lxml>=5",
+  "pillow>=10",
+  "google-genai>=1.0",
+  "anthropic>=0.40",
+]
+
+[project.optional-dependencies]
+# the TrOCR line engine, on CUDA; Kraken lives in an environment of its own (scripts/setup_kraken.ps1)
+gpu = ["torch>=2.7", "transformers>=4.51", "tokenizers", "huggingface_hub"]
+# scripts/modal_runner.py
+modal = ["modal>=1.0"]
+
+[project.scripts]
+htrbench = "htrbench.cli:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/htrbench"]
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu128" }
+
+[dependency-groups]
+dev = ["pytest>=8", "ruff"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 150
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]

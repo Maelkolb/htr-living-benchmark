@@ -1,0 +1,26 @@
+# Constants of the scoring protocol. Changing a value here changes scores; the tables in results/ were made with these.
+
+judge:
+  model_id: gemini-3.5-flash
+  prompt_id: judge_v1
+  lines_per_system: 100   # differing matched lines, the same reference lines across systems wherever a system has them
+  passes: 2               # every line is judged twice at temperature 0; both passes enter the judge facet of D4
+  seed: 0
+
+# D5 = speed / 2 + (hardware + price) / 4, on absolute anchors, so that a new system never rescales the others.
+# Why these weights and anchors: docs/METHODS.md, D5.
+efficiency:
+  weights: {speed: 0.5, hardware: 0.25, price: 0.25}
+  speed:
+    s_floor: 1.0       # one second a page or faster scores 1
+    s_ceiling: 100.0   # a hundred seconds a page scores 0: about what a person needs to read the page
+  price:
+    usd_floor: 0.001   # a tenth of a cent a page scores 1: nothing next to a minute of human correction
+    usd_ceiling: 1.0   # a dollar a page scores 0: the order of magnitude of manual transcription
+  hardware:            # the smallest machine that runs one page
+    cpu: 1.0
+    gpu_8gb: 0.8
+    gpu_24gb: 0.5
+    gpu_80gb: 0.2
+    api: 0.1
+    transkribus: 0.1

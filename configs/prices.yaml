@@ -1,0 +1,59 @@
+# What a page costs. Used when a run is made (cost_usd per prediction) and for the price facet of D5.
+#
+# models: API list prices in USD per million tokens; thinking tokens are billed as output unless a rate is given.
+# verified_on is the day the price was read from source_url. The archived runs carry the cost computed at run time.
+models:
+  - model_id: gemini-3.5-flash
+    provider: google
+    usd_per_m_in: 1.50
+    usd_per_m_out: 9.00
+    verified_on: "2026-09-03"
+    source_url: https://ai.google.dev/gemini-api/docs/pricing
+  - model_id: gemini-3.8-flash
+    provider: google
+    usd_per_m_in: 0.75
+    usd_per_m_out: 3.75
+    verified_on: "2026-09-03"
+    source_url: https://ai.google.dev/gemini-api/docs/pricing
+    notes: promotional price through 2026-12-31 (then 1.50 / 7.50)
+  - model_id: gemini-3.5-flash-lite
+    provider: google
+    usd_per_m_in: 0.30
+    usd_per_m_out: 2.50
+    verified_on: "2026-09-03"
+    source_url: https://ai.google.dev/gemini-api/docs/pricing
+  - model_id: gemini-3.1-pro-preview
+    provider: google
+    usd_per_m_in: 2.00
+    usd_per_m_out: 12.00
+    verified_on: "2026-09-03"
+    source_url: https://ai.google.dev/gemini-api/docs/pricing
+    notes: prompts up to 200k tokens
+  - model_id: claude-sonnet-5
+    provider: anthropic
+    usd_per_m_in: 2.00
+    usd_per_m_out: 10.00
+    verified_on: "2026-06-24"
+    source_url: https://docs.anthropic.com/en/docs/about-claude/pricing
+    notes: read in June 2026 and not re-checked when the runs were made
+  - model_id: claude-opus-5
+    provider: anthropic
+    usd_per_m_in: 5.00
+    usd_per_m_out: 25.00
+    verified_on: "2026-06-24"
+    source_url: https://docs.anthropic.com/en/docs/about-claude/pricing
+    notes: read in June 2026 and not re-checked when the runs were made
+
+# Transkribus bills credits, one per page for text recognition in the web app. The rate is what the credits of the
+# poster's runs were bought for: 250 credits for EUR 59.50.
+transkribus:
+  eur_per_credit: 0.238
+  verified_on: "2026-09-06"
+  source_url: https://www.transkribus.org/pricing
+
+# Open-weight models are priced by the electricity of their measured energy. The tariff is an assumed German household
+# rate. Kraken runs on the CPU, where no power is logged: its energy is cpu_w_estimate x seconds per page.
+electricity:
+  eur_per_kwh: 0.38
+  usd_per_eur: 1.08
+  cpu_w_estimate: 35

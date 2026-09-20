@@ -1,0 +1,231 @@
+# The 20 systems of the poster.
+#
+#   role            lineup = read all 86 pages and carries the five dimensions on the poster (the judge sample covers these)
+#                   field  = counted among the systems and compared on whole-page accuracy
+#   runner          key of htrbench.runners.registry.RUNNERS
+#   hardware        what the archived run used
+#   hardware_class  the smallest machine that runs one page; scored by the ladder in protocol.yaml (D5)
+#   price_key       entry of prices.yaml for systems billed per token or per credit
+#
+# Bundle systems run on a rented GPU through scripts/modal_runner.py; params.adapter and params.gpu are its arguments.
+systems:
+  # ------------------------------------------------------------------ hosted vision-language models
+  - system_id: gemini-3.5-flash
+    label: Gemini 3.5 Flash
+    role: lineup
+    runner: gemini
+    model_id: gemini-3.5-flash
+    provider: google
+    family: vlm_api
+    weights: closed
+    hardware: api
+    hardware_class: api
+    price_key: gemini-3.5-flash
+    params: {temperature: 0.0, thinking_level: minimal, max_output_tokens: 8192, workers: 6}
+  - system_id: gemini-3.5-flash-think
+    label: Gemini 3.5 Flash (thinking low)
+    runner: gemini
+    model_id: gemini-3.5-flash
+    provider: google
+    family: vlm_api
+    weights: closed
+    hardware: api
+    hardware_class: api
+    price_key: gemini-3.5-flash
+    params: {temperature: 0.0, thinking_level: low, max_output_tokens: 8192, workers: 6}
+  - system_id: gemini-3.8-flash
+    label: Gemini 3.8 Flash
+    runner: gemini
+    model_id: gemini-3.8-flash
+    provider: google
+    family: vlm_api
+    weights: closed
+    hardware: api
+    hardware_class: api
+    price_key: gemini-3.8-flash
+    params: {temperature: 0.0, thinking_level: low, max_output_tokens: 8192, workers: 6}
+  - system_id: gemini-3.5-flash-lite
+    label: Gemini 3.5 Flash-Lite
+    runner: gemini
+    model_id: gemini-3.5-flash-lite
+    provider: google
+    family: vlm_api
+    weights: closed
+    hardware: api
+    hardware_class: api
+    price_key: gemini-3.5-flash-lite
+    params: {temperature: 0.0, thinking_level: minimal, max_output_tokens: 8192, workers: 6}
+  - system_id: gemini-3.1-pro
+    label: Gemini 3.1 Pro
+    runner: gemini
+    model_id: gemini-3.1-pro-preview
+    provider: google
+    family: vlm_api
+    weights: closed
+    hardware: api
+    hardware_class: api
+    price_key: gemini-3.1-pro-preview
+    params: {temperature: 0.0, thinking_level: low, max_output_tokens: 8192, workers: 4}
+  - system_id: claude-sonnet-5
+    label: Claude Sonnet 5
+    role: lineup
+    runner: anthropic
+    model_id: claude-sonnet-5
+    provider: anthropic
+    family: vlm_api
+    weights: closed
+    hardware: api
+    hardware_class: api
+    price_key: claude-sonnet-5
+    params: {max_tokens: 8192, workers: 4}
+  - system_id: claude-opus-5
+    label: Claude Opus 5
+    runner: anthropic
+    model_id: claude-opus-5
+    provider: anthropic
+    family: vlm_api
+    weights: closed
+    hardware: api
+    hardware_class: api
+    price_key: claude-opus-5
+    params: {max_tokens: 8192, workers: 3}
+
+  # ------------------------------------------------------------------ Transkribus (web app, model ids as model_id)
+  - system_id: transkribus-german-genius
+    label: Transkribus German Genius
+    role: lineup
+    runner: transkribus
+    model_id: "265149"
+    provider: transkribus
+    family: transkribus
+    weights: closed
+    hardware: transkribus_cloud
+    hardware_class: transkribus
+  - system_id: transkribus-text-titan-ii
+    label: Transkribus Text Titan II
+    role: lineup
+    runner: transkribus
+    model_id: "579509"
+    provider: transkribus
+    family: transkribus
+    weights: closed
+    hardware: transkribus_cloud
+    hardware_class: transkribus
+
+  # ------------------------------------------------------------------ line engines on the shared Kraken layout
+  - system_id: trocr-kurrent-xvi-xvii
+    label: TrOCR Kurrent XVI–XVII
+    role: lineup
+    runner: trocr
+    model_id: dh-unibe/trocr-kurrent-XVI-XVII
+    provider: huggingface
+    family: specialised_line
+    weights: open
+    hardware: rtx5060_8gb
+    hardware_class: gpu_8gb
+    params: {batch_size: 16, fp16: true, num_beams: 4, max_new_tokens: 96}
+  - system_id: kraken-kurrent-xix
+    label: Kraken 19th-c. Kurrent
+    role: lineup
+    runner: kraken_rec
+    model_id: models/kraken/kraken_german_finetuned.mlmodel
+    provider: local
+    family: specialised_line
+    weights: open
+    hardware: cpu_local
+    hardware_class: cpu
+    params: {model_url: "https://raw.githubusercontent.com/MGJamJam/htr_german_kurrent_model/main/Models/kraken_german_finetuned.mlmodel"}
+
+  # ------------------------------------------------------------------ open-weight page readers (bundle contract, Modal)
+  - system_id: olmocr-2-7b
+    label: olmOCR-2 7B
+    role: lineup
+    runner: bundle
+    model_id: allenai/olmOCR-2-7B-1025
+    provider: huggingface
+    family: vlm_open_local
+    weights: open
+    hardware: modal_a100
+    hardware_class: gpu_24gb
+    params: {adapter: hf, gpu: a100}
+  - system_id: paddleocr-vl-1.6
+    label: PaddleOCR-VL 1.6
+    role: lineup
+    runner: bundle
+    model_id: PaddlePaddle/PaddleOCR-VL-1.6
+    provider: paddle
+    family: vlm_open_local
+    weights: open
+    hardware: modal_a10g
+    hardware_class: gpu_8gb
+    params: {adapter: paddle-vl, gpu: paddle}  # the official page pipeline: layout detection, then the 0.9B VLM per element; takes no prompt
+  - system_id: churro-3b
+    label: CHURRO 3B
+    runner: bundle
+    model_id: stanford-oval/churro-3B
+    provider: huggingface
+    family: vlm_open_local
+    weights: open
+    hardware: modal_a100
+    hardware_class: gpu_8gb
+    params: {adapter: churro, gpu: a100}  # runs with the model's own system and user prompt
+  - system_id: qwen3-vl-4b
+    label: Qwen3-VL 4B
+    runner: bundle
+    model_id: Qwen/Qwen3-VL-4B-Instruct
+    provider: huggingface
+    family: vlm_open_local
+    weights: open
+    hardware: modal_a10g
+    hardware_class: gpu_24gb
+    params: {adapter: hf, gpu: a10g}
+  - system_id: qwen3-vl-8b
+    label: Qwen3-VL 8B
+    runner: bundle
+    model_id: Qwen/Qwen3-VL-8B-Instruct
+    provider: huggingface
+    family: vlm_open_local
+    weights: open
+    hardware: modal_a100
+    hardware_class: gpu_24gb
+    params: {adapter: hf, gpu: a100}
+  - system_id: qwen3-vl-32b
+    label: Qwen3-VL 32B
+    runner: bundle
+    model_id: Qwen/Qwen3-VL-32B-Instruct
+    provider: huggingface
+    family: vlm_open_local
+    weights: open
+    hardware: modal_h100
+    hardware_class: gpu_80gb
+    params: {adapter: hf, gpu: h100}
+  - system_id: nanonets-ocr2-3b
+    label: Nanonets-OCR2 3B
+    runner: bundle
+    model_id: nanonets/Nanonets-OCR2-3B
+    provider: huggingface
+    family: vlm_open_local
+    weights: open
+    hardware: modal_a100
+    hardware_class: gpu_8gb
+    params: {adapter: hf, gpu: a100}
+  - system_id: internvl3.5-8b
+    label: InternVL3.5 8B
+    runner: bundle
+    model_id: OpenGVLab/InternVL3_5-8B-HF
+    provider: huggingface
+    family: vlm_open_local
+    weights: open
+    hardware: modal_a100
+    hardware_class: gpu_24gb
+    params: {adapter: hf, gpu: a100}
+  - system_id: pp-ocrv5
+    label: PP-OCRv5
+    runner: bundle
+    model_id: PP-OCRv5 lang=de
+    provider: paddle
+    family: ocr_pipeline
+    weights: open
+    hardware: modal_a10g
+    hardware_class: cpu
+    params: {adapter: ppocr, gpu: paddle}  # text detection + CTC recognition, lines sorted top to bottom; takes no prompt

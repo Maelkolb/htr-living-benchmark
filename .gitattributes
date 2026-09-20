@@ -1,0 +1,6 @@
+# the generated tables are written with LF and compared byte for byte by tests/test_release.py
+* text=auto eol=lf
+*.parquet binary
+*.png binary
+*.pdf binary
+*.pptx binary

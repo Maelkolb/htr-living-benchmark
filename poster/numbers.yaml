@@ -1,0 +1,178 @@
+# Every number printed on poster_final.pdf, transcribed from the poster and keyed to the table cell it comes from.
+# `htrbench check-poster` recomputes nothing: it compares these values with results/tables, rounded as printed.
+
+counts:                      # header, "How this benchmark works", "The material"
+  pages: 86                  # corpora.csv, sum of n_pages
+  corpora: 4
+  reference_lines: 2633      # corpora.csv, sum of n_lines
+  systems: 20                # profile.csv, rows
+  open_weight_page_readers_on_all_pages: 7   # profile.csv: family vlm_open_local with n_pages = 86 (take-home 2)
+  best_open_weight_page_reader: olmocr-2-7b  # the one of those seven with the lowest whole-page CER
+  corpus_cards:              # corpora.csv: [n_pages, n_lines]
+    abp: [34, 870]
+    humboldt: [20, 602]
+    forst: [22, 823]
+    laubmann: [10, 338]
+
+# "Which system, for which need?": profile.csv [char_accuracy, word_accuracy, fidelity, integrity, efficiency], two decimals
+scorecard:
+  gemini-3.5-flash: [0.82, 0.62, 0.69, 0.79, 0.56]
+  transkribus-german-genius: [0.82, 0.58, 0.56, 0.77, 0.31]
+  transkribus-text-titan-ii: [0.78, 0.51, 0.51, 0.69, 0.28]
+  claude-sonnet-5: [0.66, 0.39, 0.57, 0.57, 0.39]
+  trocr-kurrent-xvi-xvii: [0.67, 0.21, 0.47, 0.59, 0.79]
+  kraken-kurrent-xix: [0.55, 0.12, 0.52, 0.50, 0.97]
+  olmocr-2-7b: [0.40, 0.16, 0.43, 0.50, 0.59]
+  paddleocr-vl-1.6: [0.34, 0.06, 0.43, 0.58, 0.67]
+
+# "Every system on every corpus by dimension": profile_corpus.csv, the same five columns, two decimals
+corpus_matrix:
+  gemini-3.5-flash:
+    abp: [0.80, 0.52, 0.64, 0.70, 0.57]
+    humboldt: [0.68, 0.47, 0.88, 0.80, 0.57]
+    forst: [0.89, 0.77, 0.92, 0.84, 0.56]
+    laubmann: [0.94, 0.84, 0.92, 0.86, 0.44]
+  transkribus-german-genius:
+    abp: [0.88, 0.63, 0.52, 0.82, 0.31]
+    humboldt: [0.66, 0.38, 0.86, 0.71, 0.31]
+    forst: [0.85, 0.68, 0.82, 0.69, 0.31]
+    laubmann: [0.88, 0.64, 0.83, 0.82, 0.31]
+  transkribus-text-titan-ii:
+    abp: [0.83, 0.54, 0.47, 0.71, 0.28]
+    humboldt: [0.61, 0.29, 0.81, 0.66, 0.28]
+    forst: [0.82, 0.61, 0.75, 0.62, 0.28]
+    laubmann: [0.86, 0.62, 0.86, 0.81, 0.28]
+  claude-sonnet-5:
+    abp: [0.66, 0.33, 0.54, 0.60, 0.39]
+    humboldt: [0.51, 0.21, 0.76, 0.60, 0.41]
+    forst: [0.67, 0.43, 0.80, 0.70, 0.39]
+    laubmann: [0.89, 0.72, 0.89, 0.79, 0.36]
+  trocr-kurrent-xvi-xvii:
+    abp: [0.80, 0.31, 0.46, 0.58, 0.82]
+    humboldt: [0.44, 0.05, 0.67, 0.43, 0.79]
+    forst: [0.74, 0.31, 0.64, 0.43, 0.78]
+    laubmann: [0.62, 0.10, 0.70, 0.47, 0.76]
+  kraken-kurrent-xix:
+    abp: [0.55, 0.10, 0.49, 0.14, 0.98]
+    humboldt: [0.39, 0.04, 0.68, 0.22, 0.98]
+    forst: [0.66, 0.23, 0.65, 0.24, 0.95]
+    laubmann: [0.57, 0.13, 0.76, 0.26, 0.89]
+  olmocr-2-7b:
+    abp: [0.54, 0.20, 0.45, 0.53, 0.61]
+    humboldt: [0.20, 0.06, 0.60, 0.35, 0.64]
+    forst: [0.27, 0.09, 0.58, 0.50, 0.58]
+    laubmann: [0.61, 0.36, 0.73, 0.78, 0.57]
+  paddleocr-vl-1.6:
+    abp: [0.38, 0.08, 0.42, 0.22, 0.68]
+    humboldt: [0.20, 0.04, 0.63, 0.34, 0.52]
+    forst: [0.29, 0.04, 0.58, 0.33, 0.67]
+    laubmann: [0.54, 0.12, 0.75, 0.50, 0.65]
+
+# D5 tile, in the order printed: profile.csv [s_per_page, price_usd_per_page in cents, hardware_class].
+# "<0.1" is the printed "< 0.1 ¢"; the hardware column prints the class as "laptop CPU", "GPU 8 GB", "API", "web app".
+efficiency_tile:
+  kraken-kurrent-xix: [1.3, "<0.1", cpu]
+  trocr-kurrent-xvi-xvii: [4.2, "<0.1", gpu_8gb]
+  paddleocr-vl-1.6: [12.7, "<0.1", gpu_8gb]
+  olmocr-2-7b: [13.3, "<0.1", gpu_24gb]
+  gemini-3.5-flash: [3.9, 0.6, api]
+  claude-sonnet-5: [14.2, 1.5, api]
+  transkribus-german-genius: [11.1, 26, transkribus]
+  transkribus-text-titan-ii: [14.8, 26, transkribus]
+
+# "A reader's view": judge.csv share_misleading (first pass), per cent
+judge_panel_misleading:
+  paddleocr-vl-1.6: 19
+  transkribus-german-genius: 22
+  kraken-kurrent-xix: 23
+  gemini-3.5-flash: 25
+  trocr-kurrent-xvi-xvii: 29
+  transkribus-text-titan-ii: 31
+  claude-sonnet-5: 53
+  olmocr-2-7b: 57
+
+# Sentences of the tiles and the take-homes: [system_id, column, printed value, format]; "pct" columns are printed as per cent
+statements:
+  - [transkribus-german-genius, char_accuracy, 82.0, pct1]   # "gets 82.0 % of the page's characters right"
+  - [paddleocr-vl-1.6, char_accuracy, 33.8, pct1]
+  - [gemini-3.5-flash, word_accuracy, 62.5, pct1]
+  - [paddleocr-vl-1.6, word_accuracy, 6.5, pct1]
+  - [gemini-3.5-flash, glyph_f1, 0.35, dec2]                  # "glyph F1 0.35 (Gemini 3.5 Flash) to 0.00 (olmOCR-2 7B)"
+  - [olmocr-2-7b, glyph_f1, 0.00, dec2]
+  - [gemini-3.5-flash, punct_kept, 77, pct0]                  # "Punctuation survives for 77–37 % of the marks"
+  - [olmocr-2-7b, punct_kept, 37, pct0]
+  - [gemini-3.5-flash, caps_kept, 96, pct0]                   # "capitals for 96–85 %"
+  - [trocr-kurrent-xvi-xvii, caps_kept, 85, pct0]
+  - [gemini-3.5-flash, judge_misleading, 23, pct0]            # "the judge rated 23 % misleading" (both passes)
+  - [olmocr-2-7b, judge_misleading, 56, pct0]
+  - [gemini-3.5-flash, numeral_f1, 81, pct0]                  # "Numbers: Gemini 3.5 Flash keeps 81 %"
+  - [kraken-kurrent-xix, numeral_f1, 22, pct0]
+  - [olmocr-2-7b, cer_page, 60.2, pct1]                       # take-home 2: "gets 60.2 % of the page wrong"
+  - [gemini-3.5-flash, real_word_share, 69, pct0]             # take-home 3
+  - [kraken-kurrent-xix, real_word_share, 40, pct0]
+
+# Ranges quoted on the tiles hold over the line-up: the first system has the maximum, the second the minimum.
+extremes:
+  char_accuracy: [transkribus-german-genius, paddleocr-vl-1.6]
+  word_accuracy: [gemini-3.5-flash, paddleocr-vl-1.6]
+  fidelity: [gemini-3.5-flash, paddleocr-vl-1.6]
+  integrity: [gemini-3.5-flash, olmocr-2-7b]
+  efficiency: [kraken-kurrent-xix, transkribus-text-titan-ii]
+  glyph_f1: [gemini-3.5-flash, olmocr-2-7b]
+  punct_kept: [gemini-3.5-flash, olmocr-2-7b]
+  caps_kept: [gemini-3.5-flash, trocr-kurrent-xvi-xvii]
+
+# Take-home 1: the system with the highest character accuracy per corpus, among systems that read every page of it
+corpus_winners:
+  abp: transkribus-german-genius
+  humboldt: gemini-3.5-flash
+  forst: gemini-3.5-flash
+  laubmann: gemini-3.5-flash
+
+# The corpus cards print the span of the archival series the pages were drawn from, not of the 86 pages: the
+# Ratsprotokolle of the release begin in 1736, its Humboldt pages end in 1799. The check requires every page the
+# manifest dates to fall inside the printed range; the forest and Laubmann pages carry no year (docs/DATASETS.md).
+corpus_years:
+  abp: [1710, 1803]
+  humboldt: [1790, 1805]
+  forst: [1857, 1895]
+  laubmann: [1917, 1965]
+
+# Lines quoted on the poster; `line` counts the reference's non-empty lines from 0. `ref` is the reference line
+# printed beside the reading and `text` the reading itself, which the check looks up in the archived run, matched
+# to that reference line. `cer` and `wer` are the rates printed next to it (tier L1, per cent), `verdict` the
+# judge's verdict on that line in its first pass, `spans` the differences the judge listed.
+#
+# Two places where the poster sets a quoted line differently from the release, without changing what it says:
+# the opening example runs the two Humboldt lines together, and the D3 tile drops the line-final hyphen marker
+# "[-]" that the D1/D2 tile keeps on the sibling line of the same page.
+quotes:
+  - {system: gemini-3.5-flash, page: humboldt_england1790_8r, line: 3,
+     ref: "die in Deutschland nur bei", text: "die in Deutschland nur bei"}
+  - {system: gemini-3.5-flash, page: humboldt_england1790_8r, line: 4,
+     ref: "Harzburg am Harze entdekt", text: "Harzburg am Wege entdeckt"}
+  - {system: transkribus-text-titan-ii, page: humboldt_england1790_8r, line: 3,
+     ref: "die in Deutschland nur bei", text: "die in Deutschland im bei"}
+  - {system: transkribus-text-titan-ii, page: humboldt_england1790_8r, line: 4,
+     ref: "Harzburg am Harze entdekt", text: "Herzberg am Hage entdekt."}
+  - {system: gemini-3.5-flash, page: ABP_B5_1739_00310, line: 5,
+     ref: "Concʆ: Sub Consuetis clausu[-]", text: "Concl: Sub Consuetis clausulis", cer: 14, wer: 50}
+  - {system: trocr-kurrent-xvi-xvii, page: ABP_B5_1739_00310, line: 5,
+     ref: "Concʆ: Sub Consuetis clausu[-]", text: "Concl . sub consuetis clausulis", cer: 29, wer: 100}
+  - {system: transkribus-text-titan-ii, page: ABP_B5_1739_00310, line: 5,
+     ref: "Concʆ: Sub Consuetis clausu[-]", text: "Concl. Sub Consuetis clausus", cer: 11, wer: 50}
+  - {system: gemini-3.5-flash, page: ABP_B5_1739_00310, line: 19,
+     ref: "ſeeʆ geweſte Köchin außgeſaget d[-]", text: "praef: geweste Köchin außgesaget, dß"}
+  - {system: kraken-kurrent-xix, page: ABP_B5_1739_00310, line: 19,
+     ref: "ſeeʆ geweſte Köchin außgeſaget d[-]", text: "ras gereſte. Lachm außgeſuget u."}
+  - {system: transkribus-text-titan-ii, page: ABP_B5_1739_00310, line: 19,
+     ref: "ſeeʆ geweſte Köchin außgeſaget d[-]", text: "seel geweste Köchin außgesaget, da"}
+  - {system: gemini-3.5-flash, page: humboldt_america1799_10r, line: 8,
+     ref: "findet. Das Mittel ist übrigens alt. In Chile hat man",
+     text: "Stadt d. Viertel iſt übrigens alt. Im Thale hat man", verdict: misleading}
+  # The sentence the poster prints under this example summarises the judge's note; the judge's own words are
+  # "The machine transcription hallucinates a day, garbles the month, misreads the year, and severely distorts
+  # the city name." The four spans beside it are quoted verbatim and are checked.
+  - {system: kraken-kurrent-xix, page: laubmann03_0131_R, line: 0,
+     ref: "Januar 1923. München.", text: "15. Janiar is3. munmen.", verdict: misleading,
+     spans: [["15. Janiar", hallucinated_insertion, 1], ["Janiar", garble, 1], ["is3.", number_error, 2], ["munmen.", name_error, 2]]}

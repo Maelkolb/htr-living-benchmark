@@ -1,0 +1,18 @@
+# the data release (htrbench data fetch)
+data/
+
+# secrets
+.env
+
+# fetched or produced locally: recognition models, task bundles for a rented GPU, line crops
+models/
+bundles/
+cache/
+
+# environments and tool state
+.venv/
+.venv-kraken/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/

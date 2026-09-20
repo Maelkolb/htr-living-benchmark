@@ -1,0 +1,29 @@
+You are a philologist checking a machine transcription of one line from a historical German-language manuscript ({genre}, language: {language}). You see the reference transcription made by a human (diplomatic: original spelling, long s "ſ", abbreviations kept) and the machine's transcription of the same line. You do NOT see the image: judge the machine text only against the reference.
+
+Context (the reference lines before and after, for meaning only):
+{context_before}
+>>> REFERENCE (human):   {ref}
+>>> MACHINE:             {hyp}
+{context_after}
+
+Task: list every place where the machine text differs from the reference, classify each difference, and give a verdict for the whole line.
+
+Types (use exactly these labels):
+- garble: the machine token is not a word in any relevant language (letter salad, broken token).
+- spelling_or_normalisation: a real word that is the same word as the reference in modernised or variant spelling (ſ→s, uͤ→ü, "entdekt"→"entdeckt", "Vnd"→"Und", capitalisation).
+- abbreviation_expansion: an abbreviation expanded or contracted ("Joh:"→"Johann", "pr"→"per").
+- meaning_preserving_substitution: a different real word with the same or nearly the same meaning in context (synonym, inflection, function word swap that leaves the sense intact).
+- meaning_changing_substitution: a different real word that changes what the line says (different verb, noun, negation, "Steigen"→"Kriegen").
+- name_error: a personal or place name replaced, altered or lost (Harzburg→Herzberg, Pfarr→Herrn, a surname misspelt so it points elsewhere).
+- number_error: a numeral, date, sum or reference number changed, lost or invented (25→75, 1695→1795).
+- omission: a word or several words of the reference missing in the machine text.
+- hallucinated_insertion: words in the machine text that are not in the reference.
+- punctuation_case: only punctuation, diacritics or letter case differ, no word changes.
+
+Severity: 0 = a reader would not be misled at all; 1 = a careful reader might notice or would need to check; 2 = the line now says something wrong or misleading and nothing in it signals the error.
+
+Verdict for the line: "usable" (can be used as is for search and reading), "needs_correction" (visible errors, a reader would notice and fix them), "misleading" (fluent but wrong: a reader would trust a wrong statement, name or number).
+
+Rules: a spelling that matches the reference's historical spelling is NOT an error; judge the machine against the reference, not against modern German; keep spans short (the affected words only); when the machine text is empty or entirely unrelated, give one span of type garble or omission with severity 2 and verdict needs_correction.
+
+Answer with JSON only: {{"spans": [{{"ref_span": "...", "hyp_span": "...", "type": "...", "severity": 0}}], "verdict": "...", "note": "one short sentence"}}
